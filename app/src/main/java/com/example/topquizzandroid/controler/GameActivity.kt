@@ -8,8 +8,6 @@ import com.example.topquizzandroid.R
 import com.example.topquizzandroid.model.QuestionBank
 
 import com.example.topquizzandroid.model.Question
-import java.util.*
-
 
 class GameActivity : AppCompatActivity() {
     private lateinit var mQuestionTextView: TextView
@@ -27,10 +25,10 @@ class GameActivity : AppCompatActivity() {
         mAnswer4Button = findViewById(R.id.game_activity_button_4)
     }
 
-    private fun generateQuestionBank(): QuestionBank? {
+    private fun generateQuestionBank(): QuestionBank {
         val question1 = Question(
             "Who is the creator of Android?",
-            Arrays.asList(
+            listOf(
                 "Andy Rubin",
                 "Steve Wozniak",
                 "Jake Wharton",
@@ -40,7 +38,7 @@ class GameActivity : AppCompatActivity() {
         )
         val question2 = Question(
             "When did the first man land on the moon?",
-            Arrays.asList(
+            listOf(
                 "1958",
                 "1962",
                 "1967",
@@ -50,7 +48,7 @@ class GameActivity : AppCompatActivity() {
         )
         val question3 = Question(
             "What is the house number of The Simpsons?",
-            Arrays.asList(
+            listOf(
                 "42",
                 "101",
                 "666",
@@ -60,7 +58,7 @@ class GameActivity : AppCompatActivity() {
         )
         val question4 = Question(
             "Who did the Mona Lisa paint?",
-            Arrays.asList(
+            listOf(
                 "Michelangelo",
                 "Leonardo Da Vinci",
                 "Raphael",
@@ -70,7 +68,7 @@ class GameActivity : AppCompatActivity() {
         )
         val question5 = Question(
             "What is the country top-level domain of Belgium?",
-            Arrays.asList(
+            listOf(
                 ".bg",
                 ".bm",
                 ".bl",
@@ -78,6 +76,6 @@ class GameActivity : AppCompatActivity() {
             ),
             3
         )
-        return QuestionBank(Arrays.asList(question1, question2, question3, question4, question5))
+        return QuestionBank(listOf(question1, question2, question3, question4, question5))
     }
 }

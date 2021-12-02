@@ -3,8 +3,8 @@ package com.example.topquizzandroid.model
 import java.util.Collections;
 
 class QuestionBank(questionList: List<Question>) {
-    var mQuestionList: List<Question> = questionList
-    var mQuestionIndex: Int = 0
+    private var mQuestionList: List<Question> = questionList
+    private var mQuestionIndex: Int = 0
     init {
         Collections.shuffle(mQuestionList);
     }

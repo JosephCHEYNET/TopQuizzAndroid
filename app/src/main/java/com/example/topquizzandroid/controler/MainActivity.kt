@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mGreetingTextView: TextView
     private lateinit var mNameEditText: EditText
     private lateinit var mPlayButton: Button
-    public lateinit var mUser: User
+    private lateinit var mUser: User
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

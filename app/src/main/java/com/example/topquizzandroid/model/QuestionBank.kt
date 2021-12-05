@@ -1,20 +1,20 @@
 package com.example.topquizzandroid.model
 
-import java.util.Collections;
+import java.util.Collections.shuffle
 
-class QuestionBank(questionList: List<Question>) {
-    private var mQuestionList: List<Question> = questionList
-    private var mQuestionIndex: Int = 0
+class QuestionBank(private var questionList: List<Question>) {
+    private var questionIndex: Int = 0
     init {
-        Collections.shuffle(mQuestionList);
+        shuffle(questionList)
     }
+
     // Loop over the questions and return a new one at each call
-    fun getNextQuestion(): Question? {
-        mQuestionIndex++
+    fun getNextQuestion(): Question {
+        questionIndex++
         return getCurrentQuestion()
     }
 
-    fun getCurrentQuestion(): Question? {
-        return mQuestionList[mQuestionIndex]
+    fun getCurrentQuestion(): Question {
+        return questionList[questionIndex]
     }
 }

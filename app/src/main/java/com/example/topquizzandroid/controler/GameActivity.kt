@@ -2,27 +2,47 @@ package com.example.topquizzandroid.controler
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import com.example.topquizzandroid.R
-import com.example.topquizzandroid.model.QuestionBank
-
 import com.example.topquizzandroid.model.Question
+import com.example.topquizzandroid.model.QuestionBank
+import java.lang.IllegalStateException
+import androidx.appcompat.app.AlertDialog
 
-class GameActivity : AppCompatActivity() {
-    private lateinit var mQuestionTextView: TextView
-    private lateinit var mAnswer1Button: Button
-    private lateinit var mAnswer2Button: Button
-    private lateinit var mAnswer3Button: Button
-    private lateinit var mAnswer4Button: Button
+
+class GameActivity : AppCompatActivity(), View.OnClickListener {
+    private lateinit var questionTextView: TextView
+    private lateinit var answer1Button: Button
+    private lateinit var answer2Button: Button
+    private lateinit var answer3Button: Button
+    private lateinit var answer4Button: Button
+    private var remainingQuestionCount: Int = 4
+    private var score: Int = 0
+    private var questionBank: QuestionBank = generateQuestionBank()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
-        mQuestionTextView = findViewById(R.id.game_activity_textview_question)
-        mAnswer1Button = findViewById(R.id.game_activity_button_1)
-        mAnswer2Button = findViewById(R.id.game_activity_button_2)
-        mAnswer3Button = findViewById(R.id.game_activity_button_3)
-        mAnswer4Button = findViewById(R.id.game_activity_button_4)
+        questionTextView = findViewById(R.id.game_activity_textview_question)
+        answer1Button = findViewById(R.id.game_activity_button_1)
+        answer2Button = findViewById(R.id.game_activity_button_2)
+        answer3Button = findViewById(R.id.game_activity_button_3)
+        answer4Button = findViewById(R.id.game_activity_button_4)
+        answer1Button.setOnClickListener(this)
+        answer2Button.setOnClickListener(this)
+        answer3Button.setOnClickListener(this)
+        answer4Button.setOnClickListener(this)
+        displayQuestion(questionBank.getCurrentQuestion())
+    }
+
+    private fun displayQuestion(question: Question) {
+        questionTextView.text = question.question
+        answer1Button.text = question.choiceList[0]
+        answer2Button.text = question.choiceList[1]
+        answer3Button.text = question.choiceList[2]
+        answer4Button.text = question.choiceList[3]
     }
 
     private fun generateQuestionBank(): QuestionBank {
@@ -77,5 +97,48 @@ class GameActivity : AppCompatActivity() {
             3
         )
         return QuestionBank(listOf(question1, question2, question3, question4, question5))
+    }
+
+    override fun onClick(v: View?) {
+        val index = when {
+            v === answer1Button -> {
+                0
+            }
+            v === answer2Button -> {
+                1
+            }
+            v === answer3Button -> {
+                2
+            }
+            v === answer4Button -> {
+                3
+            }
+            else -> {
+                throw IllegalStateException("Unknown clicked view : $v")
+            }
+        }
+        if (index == questionBank.getCurrentQuestion().answerIndex) {
+            score++
+            Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Lost!", Toast.LENGTH_SHORT).show()
+        }
+        remainingQuestionCount--
+
+        if (remainingQuestionCount > 0) {
+            displayQuestion(questionBank.getNextQuestion())
+        } else {
+            displayScore()
+        }
+    }
+
+    private fun displayScore() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setTitle("Well done! ")
+            .setMessage("Your score is $score")
+            .setPositiveButton("OK"
+            ) { _, _ -> finish() }
+            .create()
+            .show()
     }
 }

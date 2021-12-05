@@ -7,39 +7,35 @@ import android.widget.EditText
 import android.widget.TextView
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import android.content.Intent
 import com.example.topquizzandroid.R
 import com.example.topquizzandroid.model.User
 
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var mGreetingTextView: TextView
-    private lateinit var mNameEditText: EditText
-    private lateinit var mPlayButton: Button
-    private lateinit var mUser: User
+    private lateinit var greetingTextView: TextView
+    private lateinit var nameEditText: EditText
+    private lateinit var playButton: Button
+    private lateinit var user: User
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mGreetingTextView = findViewById(R.id.main_textview_greeting)
-        mNameEditText = findViewById(R.id.main_edittext_name)
-        mPlayButton = findViewById(R.id.main_button_play)
-        mPlayButton.isEnabled = false
-        mNameEditText.addTextChangedListener(object : TextWatcher {
+        greetingTextView = findViewById(R.id.main_textview_greeting)
+        nameEditText = findViewById(R.id.main_edittext_name)
+        playButton = findViewById(R.id.main_button_play)
+        playButton.isEnabled = false
+        nameEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
-                mPlayButton.setEnabled(!s.toString().isEmpty());
+                playButton.isEnabled = s.toString().isNotEmpty()
             }
         })
-        mPlayButton.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                mUser.firstName = mNameEditText.text.toString()
-                val gameActivityIntent = Intent(this@MainActivity, GameActivity::class.java)
-                startActivity(gameActivityIntent)
-                // The user just clicked
-            }
-        })
+        playButton.setOnClickListener {
+            user = User(nameEditText.text.toString())
+            val gameActivityIntent = Intent(this@MainActivity, GameActivity::class.java)
+            startActivity(gameActivityIntent)
+        }
 
     }
 }

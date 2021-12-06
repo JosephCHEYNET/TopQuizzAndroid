@@ -1,3 +1,3 @@
 package com.example.topquizzandroid.model
 
-class User (val firstName: String)
+class User (var firstName: String)

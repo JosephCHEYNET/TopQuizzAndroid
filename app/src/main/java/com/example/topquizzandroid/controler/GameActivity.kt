@@ -1,5 +1,6 @@
 package com.example.topquizzandroid.controler
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -10,8 +11,6 @@ import com.example.topquizzandroid.R
 import com.example.topquizzandroid.model.Question
 import com.example.topquizzandroid.model.QuestionBank
 import java.lang.IllegalStateException
-import androidx.appcompat.app.AlertDialog
-
 
 class GameActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var questionTextView: TextView
@@ -128,17 +127,14 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         if (remainingQuestionCount > 0) {
             displayQuestion(questionBank.getNextQuestion())
         } else {
-            displayScore()
+            val intent = Intent()
+            intent.putExtra(BUNDLE_EXTRA_SCORE, score)
+            setResult(RESULT_OK, intent)
+            finish()
         }
     }
 
-    private fun displayScore() {
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-        builder.setTitle("Well done! ")
-            .setMessage("Your score is $score")
-            .setPositiveButton("OK"
-            ) { _, _ -> finish() }
-            .create()
-            .show()
+    companion object {
+        const val BUNDLE_EXTRA_SCORE = "BUNDLE_EXTRA_SCORE"
     }
 }

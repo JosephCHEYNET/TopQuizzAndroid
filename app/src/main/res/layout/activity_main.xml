@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:padding="8dp"
-        android:text="Bienvenue dans TopQuiz. Quel est votre prénom ?"
+        android:text="@string/WELCOME_TEXT"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -25,13 +25,15 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:padding="8dp"
-        android:hint="Saisissez votre nom ici"/>
+        android:hint="@string/INPUT_NAME_PLACEHOLDER"
+        android:inputType="text"
+        android:autofillHints="false" />
     <Button
         android:id="@+id/main_button_play"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:padding="8dp"
-        android:text="Commencer"/>
+        android:text="@string/START_BUTTON_TEXT"/>
 
 </LinearLayout>

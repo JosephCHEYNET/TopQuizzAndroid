@@ -3,6 +3,7 @@ package com.example.topquizzandroid.controler
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -11,6 +12,10 @@ import com.example.topquizzandroid.R
 import com.example.topquizzandroid.model.Question
 import com.example.topquizzandroid.model.QuestionBank
 import java.lang.IllegalStateException
+import android.view.MotionEvent
+
+
+
 
 class GameActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var questionTextView: TextView
@@ -18,11 +23,13 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var answer2Button: Button
     private lateinit var answer3Button: Button
     private lateinit var answer4Button: Button
-    private var remainingQuestionCount: Int = 4
-    private var score: Int = 0
-    private var questionBank: QuestionBank = generateQuestionBank()
+    private var remainingQuestionCount = 4
+    private var score = 0
+    private var questionBank = generateQuestionBank()
+    private var mEnableTouchEvents = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mEnableTouchEvents = true
         setContentView(R.layout.activity_game)
         questionTextView = findViewById(R.id.game_activity_textview_question)
         answer1Button = findViewById(R.id.game_activity_button_1)
@@ -34,6 +41,9 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         answer3Button.setOnClickListener(this)
         answer4Button.setOnClickListener(this)
         displayQuestion(questionBank.getCurrentQuestion())
+    }
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        return mEnableTouchEvents && super.dispatchTouchEvent(ev)
     }
 
     private fun displayQuestion(question: Question) {
@@ -122,15 +132,22 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         } else {
             Toast.makeText(this, "Lost!", Toast.LENGTH_SHORT).show()
         }
-        remainingQuestionCount--
-
-        if (remainingQuestionCount > 0) {
-            displayQuestion(questionBank.getNextQuestion())
-        } else {
-            val intent = Intent()
-            intent.putExtra(BUNDLE_EXTRA_SCORE, score)
-            setResult(RESULT_OK, intent)
-            finish()
-        }
+        mEnableTouchEvents = false
+        Handler().postDelayed(Runnable {
+            remainingQuestionCount --
+            mEnableTouchEvents = true
+            if (remainingQuestionCount > 0) {
+                displayQuestion(questionBank.getNextQuestion())
+            } else {
+                val intent = Intent()
+                intent.putExtra(BUNDLE_EXTRA_SCORE, score)
+                getSharedPreferences(SHARED_PREF_USER_INFO, MODE_PRIVATE)
+                    .edit()
+                    .putInt(SHARED_PREF_USER_INFO_SCORE, score)
+                    .apply()
+                setResult(RESULT_OK, intent)
+                finish()
+            }
+        }, 2000) // LENGTH_SHORT is usually 2 second long
     }
 }

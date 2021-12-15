@@ -13,9 +13,9 @@ import com.example.topquizzandroid.model.User
 import androidx.appcompat.app.AlertDialog
 
 private const val GAME_ACTIVITY_REQUEST_CODE = 1
-private const val SHARED_PREF_USER_INFO = "SHARED_PREF_USER_INFO"
+const val SHARED_PREF_USER_INFO = "SHARED_PREF_USER_INFO"
 private const val SHARED_PREF_USER_INFO_NAME = "SHARED_PREF_USER_INFO_NAME"
-private const val SHARED_PREF_USER_INFO_SCORE = "SHARED_PREF_USER_INFO_SCORE"
+const val SHARED_PREF_USER_INFO_SCORE = "SHARED_PREF_USER_INFO_SCORE"
 const val BUNDLE_EXTRA_SCORE = "BUNDLE_EXTRA_SCORE"
 
 class MainActivity : AppCompatActivity() {
@@ -38,20 +38,25 @@ class MainActivity : AppCompatActivity() {
                 playButton.isEnabled = s.toString().isNotEmpty()
             }
         })
-        user = User(getSharedPreferences(SHARED_PREF_USER_INFO, MODE_PRIVATE).getString(SHARED_PREF_USER_INFO_NAME, "")
-            .toString())
+        user = User(
+            getSharedPreferences(SHARED_PREF_USER_INFO, MODE_PRIVATE).getString(
+                SHARED_PREF_USER_INFO_NAME,
+                ""
+            )
+                .toString()
+        )
 
         val score = getSharedPreferences(SHARED_PREF_USER_INFO, MODE_PRIVATE).getInt(
             SHARED_PREF_USER_INFO_SCORE,
             -1
         )
-        if (user.firstName.isNotEmpty()){
+        if (user.firstName.isNotEmpty()) {
             if (score != -1) {
-                greetingTextView.text =getString(R.string.welcome_back_with_score, user.firstName, score)
+                greetingTextView.text =
+                    getString(R.string.welcome_back_with_score, user.firstName, score)
             } else {
                 greetingTextView.text = getString(R.string.welcome_back, user.firstName)
             }
-            greetingTextView.text = ""
             nameEditText.setText(user.firstName)
         }
         playButton.setOnClickListener {
@@ -68,19 +73,19 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == GAME_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            score = data?.getIntExtra(BUNDLE_EXTRA_SCORE,0)
+            score = data?.getIntExtra(BUNDLE_EXTRA_SCORE, 0)
             displayScore()
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    private fun displayScore(){
+    private fun displayScore() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Well done ${user.firstName}!")
-                .setMessage("Your score is $score")
-                .setPositiveButton("OK") { _, _ -> finish() }
-                .create()
-                .show()
+            .setMessage("Your score is $score")
+            .setPositiveButton("OK") { _, _ -> finish() }
+            .create()
+            .show()
     }
 
 }

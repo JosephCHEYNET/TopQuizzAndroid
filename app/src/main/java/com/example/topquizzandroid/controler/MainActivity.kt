@@ -12,6 +12,12 @@ import com.example.topquizzandroid.R
 import com.example.topquizzandroid.model.User
 import androidx.appcompat.app.AlertDialog
 
+private const val GAME_ACTIVITY_REQUEST_CODE = 1
+private const val SHARED_PREF_USER_INFO = "SHARED_PREF_USER_INFO"
+private const val SHARED_PREF_USER_INFO_NAME = "SHARED_PREF_USER_INFO_NAME"
+private const val SHARED_PREF_USER_INFO_SCORE = "SHARED_PREF_USER_INFO_SCORE"
+const val BUNDLE_EXTRA_SCORE = "BUNDLE_EXTRA_SCORE"
+
 class MainActivity : AppCompatActivity() {
     private lateinit var greetingTextView: TextView
     private lateinit var nameEditText: EditText
@@ -62,7 +68,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == GAME_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            score = data?.getIntExtra(GameActivity.BUNDLE_EXTRA_SCORE,0)
+            score = data?.getIntExtra(BUNDLE_EXTRA_SCORE,0)
             displayScore()
         }
         super.onActivityResult(requestCode, resultCode, data)
@@ -77,10 +83,4 @@ class MainActivity : AppCompatActivity() {
                 .show()
     }
 
-    companion object {
-        private const val GAME_ACTIVITY_REQUEST_CODE = 1
-        private const val SHARED_PREF_USER_INFO = "SHARED_PREF_USER_INFO"
-        private const val SHARED_PREF_USER_INFO_NAME = "SHARED_PREF_USER_INFO_NAME"
-        private const val SHARED_PREF_USER_INFO_SCORE = "SHARED_PREF_USER_INFO_SCORE"
-    }
 }

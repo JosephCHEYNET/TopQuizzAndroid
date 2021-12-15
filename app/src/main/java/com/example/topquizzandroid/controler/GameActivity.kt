@@ -133,8 +133,4 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             finish()
         }
     }
-
-    companion object {
-        const val BUNDLE_EXTRA_SCORE = "BUNDLE_EXTRA_SCORE"
-    }
 }

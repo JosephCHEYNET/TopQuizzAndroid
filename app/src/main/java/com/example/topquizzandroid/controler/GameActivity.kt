@@ -13,9 +13,13 @@ import com.example.topquizzandroid.model.Question
 import com.example.topquizzandroid.model.QuestionBank
 import java.lang.IllegalStateException
 import android.view.MotionEvent
+import com.google.gson.Gson
 
 
-
+const val BUNDLE_SCORE = "BUNDLE_SCORE"
+const val BUNDLE_QUESTION_BANK = "BUNDLE_EXTRA_SCORE"
+const val REMAINING_QUESTION_COUNT = "REMAINING_QUESTION_COUNT"
+val gson = Gson()
 
 class GameActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var questionTextView: TextView
@@ -29,6 +33,18 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     private var mEnableTouchEvents = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (savedInstanceState != null) {
+            questionBank = gson.fromJson(
+                savedInstanceState.getString(BUNDLE_QUESTION_BANK),
+                questionBank::class.java
+            )
+            score = savedInstanceState.getInt(BUNDLE_SCORE)
+            remainingQuestionCount = savedInstanceState.getInt(REMAINING_QUESTION_COUNT)
+        } else {
+            score = 0;
+            remainingQuestionCount = 4;
+        }
+
         mEnableTouchEvents = true
         setContentView(R.layout.activity_game)
         questionTextView = findViewById(R.id.game_activity_textview_question)
@@ -42,6 +58,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         answer4Button.setOnClickListener(this)
         displayQuestion(questionBank.getCurrentQuestion())
     }
+
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         return mEnableTouchEvents && super.dispatchTouchEvent(ev)
     }
@@ -134,7 +151,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         }
         mEnableTouchEvents = false
         Handler().postDelayed(Runnable {
-            remainingQuestionCount --
+            remainingQuestionCount--
             mEnableTouchEvents = true
             if (remainingQuestionCount > 0) {
                 displayQuestion(questionBank.getNextQuestion())
@@ -149,5 +166,12 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
                 finish()
             }
         }, 2000) // LENGTH_SHORT is usually 2 second long
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(BUNDLE_QUESTION_BANK, gson.toJson(questionBank))
+        outState.putInt(BUNDLE_SCORE, score)
+        outState.putInt(REMAINING_QUESTION_COUNT, remainingQuestionCount)
     }
 }

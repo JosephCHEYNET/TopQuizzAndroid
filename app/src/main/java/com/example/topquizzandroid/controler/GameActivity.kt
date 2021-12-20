@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -150,7 +151,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             Toast.makeText(this, "Lost!", Toast.LENGTH_SHORT).show()
         }
         mEnableTouchEvents = false
-        Handler().postDelayed(Runnable {
+        Handler(Looper.getMainLooper()).postDelayed({
             remainingQuestionCount--
             mEnableTouchEvents = true
             if (remainingQuestionCount > 0) {

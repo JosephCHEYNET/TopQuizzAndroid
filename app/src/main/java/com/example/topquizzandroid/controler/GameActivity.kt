@@ -41,8 +41,8 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             score = savedInstanceState.getInt(BUNDLE_SCORE)
             remainingQuestionCount = savedInstanceState.getInt(REMAINING_QUESTION_COUNT)
         } else {
-            score = 0;
-            remainingQuestionCount = 4;
+            score = 0
+            remainingQuestionCount = 4
         }
 
         mEnableTouchEvents = true

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -27,8 +28,9 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="8dp"
         android:layout_weight="1"
-        android:padding="16dp"
-        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="normal|bold"
         tools:text="Answer1" />
 
     <Button
@@ -38,8 +40,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="8dp"
         android:layout_weight="1"
-        android:padding="16dp"
-        android:textSize="20sp"
+        android:textSize="16sp"
+        android:textColor="@color/white"
         tools:text="Answer2" />
 
     <Button
@@ -49,8 +51,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="8dp"
         android:layout_weight="1"
-        android:padding="16dp"
-        android:textSize="20sp"
+        android:textSize="16sp"
+        android:textColor="@color/white"
         tools:text="Answer3" />
 
     <Button
@@ -60,7 +62,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="8dp"
         android:layout_weight="1"
-        android:padding="16dp"
-        android:textSize="20sp"
+        android:textSize="16sp"
+        android:textColor="@color/white"
         tools:text="Answer4" />
 </LinearLayout>
